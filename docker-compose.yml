@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  instant_ngp:
+    build:
+      context: .
+      dockerfile: instant_ngp.Dockerfile
+    image: nerf-optimization/instant-ngp
+    volumes:
+      - ./instant-ngp:/project/instant-ngp
+    ipc: host
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
