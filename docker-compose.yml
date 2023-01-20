@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: docker/instant-ngp/instant_ngp.Dockerfile
+    user: ${FIXUID:?}:${FIXGID:?}
     volumes:
       - ./src/instant-ngp:/project/instant-ngp
     ipc: host
