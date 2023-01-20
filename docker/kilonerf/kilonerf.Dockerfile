@@ -34,7 +34,7 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-RUN python3 -m pip install pip --upgrade
+RUN py/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64thon3 -m pip install pip --upgrade
 
 RUN pip install \ 
     commentjson \
@@ -45,15 +45,8 @@ RUN pip install \
     pyquaternion \
     scipy \
     tqdm 
-
-
+    
 # ================= User & Environment Setup, Repos ===================
-WORKDIR /project
-ENV DEBIAN_FRONTEND interactive
-ENV PATH="/usr/local/cuda-11.4/bin:$PATH"
-ENV LD_LIBRARY_PATH="/usr/local/cuda-11.4/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
-ENV TCNN_CUDA_ARCHITECTURES 86
-
 RUN apt-get update && apt-get install -y curl sudo && \
     rm -rf /var/lib/apt/lists/*
 
@@ -73,6 +66,12 @@ RUN USER=docker && \
     printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/docker/" > /etc/fixuid/config.yml
 
 USER docker:docker
+
+WORKDIR /project
+ENV DEBIAN_FRONTEND interactive
+ENV PATH="/usr/local/cuda-11.4/bin:$PATH"
+ENV LD_LIBRARY_PATH="/usr/local/cuda-11.4/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
+ENV TCNN_CUDA_ARCHITECTURES 86
 
 COPY docker/fixuid_entrypoint.sh /home/docker/fixuid_entrypoint.sh
 RUN sudo chmod +x /home/docker/fixuid_entrypoint.sh
