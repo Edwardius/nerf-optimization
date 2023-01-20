@@ -1,4 +1,5 @@
-FROM nvidia/cuda:11.4.3-base-ubuntu20.04
+FROM nvidia/cuda:11.4.3-devel-ubuntu20.04
+ENV DEBIAN_FRONTEND noninteractive
 
 # ================= Dependencies ===================
 # python
@@ -15,7 +16,7 @@ RUN apt-get install -y software-properties-common && add-apt-repository ppa:dead
 # instant-ngp dependencies
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A4B469963BF863CC
 
-RUN pip install cmake --upgrade
+RUN pip install cmake==3.22
 
 RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
     apt-utils \
@@ -68,9 +69,10 @@ RUN USER=docker && \
 USER docker:docker
 
 WORKDIR /project
-ENV DEBIAN_FRONTEND=noninteractive
-ENV PATH="/usr/local/cuda-11.4/bin:$PATH"
+ENV DEBIAN_FRONTEND interactive
+ENV PATH="/usr/local/cuda-11.4/bin:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$PATH"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-11.4/lib64:$LD_LIBRARY_PATH"
+ENV TCNN_CUDA_ARCHITECTURES 86
 
 COPY docker/fixuid_entrypoint.sh /home/docker/fixuid_entrypoint.sh
 RUN sudo chmod +x /home/docker/fixuid_entrypoint.sh
