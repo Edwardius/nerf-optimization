@@ -25,6 +25,7 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
     python3-pip \
     libopenexr-dev \
     libxi-dev \
+    libxrandr-dev \
     libglfw3-dev \
     libglew-dev \
     libomp-dev \
