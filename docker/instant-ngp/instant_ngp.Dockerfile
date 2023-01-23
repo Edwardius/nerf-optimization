@@ -50,10 +50,9 @@ RUN pip install \
 # ================= User & Environment Setup, Repos ===================
 WORKDIR /project
 ENV DEBIAN_FRONTEND interactive
-ENV PATH="/usr/local/cuda-11.1/bin:$PATH"
-ENV LD_LIBRARY_PATH="/usr/local/cuda-11.1/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
+ENV PATH="/usr/local/cuda-11.4/bin:$PATH"
+ENV LD_LIBRARY_PATH="/usr/local/cuda-11.4/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
 ENV TCNN_CUDA_ARCHITECTURES 86
-ENV KILONERF_HOME $PWD
 
 RUN apt-get update && apt-get install -y curl sudo && \
     rm -rf /var/lib/apt/lists/*
