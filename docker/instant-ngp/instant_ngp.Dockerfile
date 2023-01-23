@@ -50,9 +50,10 @@ RUN pip install \
 # ================= User & Environment Setup, Repos ===================
 WORKDIR /project
 ENV DEBIAN_FRONTEND interactive
-ENV PATH="/usr/local/cuda-11.4/bin:$PATH"
-ENV LD_LIBRARY_PATH="/usr/local/cuda-11.4/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
+ENV PATH="/usr/local/cuda-11.1/bin:$PATH"
+ENV LD_LIBRARY_PATH="/usr/local/cuda-11.1/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
 ENV TCNN_CUDA_ARCHITECTURES 86
+ENV KILONERF_HOME $PWD
 
 RUN apt-get update && apt-get install -y curl sudo && \
     rm -rf /var/lib/apt/lists/*
@@ -72,27 +73,5 @@ RUN USER=docker && \
     mkdir -p /etc/fixuid && \                                                                                               
     printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/docker/" > /etc/fixuid/config.yml
 
-
-USER docker:docker
-COPY docker/fixuid_entrypoint.sh /home/docker/fixuid_entrypoint.sh
-RUN sudo chmod +x /home/docker/fixuid_entrypoint.sh
-ENTRYPOINT [ "/home/docker/fixuid_entrypoint.sh" ]
-
-# ================= VNC Server ===================
-USER root:root
-
-# Supervisor to manage multiple processes (code-server, roslaunch)
-RUN apt-get update -y
-RUN apt-get install -y wget curl gdb supervisor
-EXPOSE 5900
-
-RUN apt-get update && apt-get install -y lxde x11vnc xvfb mesa-utils && apt-get purge -y light-locker
-
-COPY --chown=docker docker/instant-ngp/supervisord.conf /etc/supervisor/supervisord.conf
-RUN chown -R docker:docker /etc/supervisor
-RUN chmod 777 /var/log/supervisor/
-
-USER docker:docker
-ENV DISPLAY=:1.0 
-
-CMD ["/usr/bin/supervisord"]
+ENTRYPOINT [ "/usr/local/bin/fixuid"]
+CMD ["sleep", "inf"]

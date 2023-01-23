@@ -32,7 +32,7 @@ RUN pip install \
     tqdm \
     imageio \
     pyyaml \
-    imageio-ffmpeg \\
+    imageio-ffmpeg \
     lpips \
     opencv-python 
 
@@ -42,7 +42,7 @@ RUN pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 \
 
 # ================= User & Environment Setup, Repos ===================
 WORKDIR /project
-ENV DEBIAN_FRONTEND interactive
+ENV DEBIAN_FRONTEND int`/home/e23zhou/code/test`eractive
 ENV PATH="/usr/local/cuda-11.4/bin:$PATH"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-11.4/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
 ENV TCNN_CUDA_ARCHITECTURES 86
@@ -67,7 +67,5 @@ RUN USER=docker && \
 
 USER docker:docker
 
-COPY docker/fixuid_entrypoint.sh /home/docker/fixuid_entrypoint.sh
-RUN sudo chmod +x /home/docker/fixuid_entrypoint.sh
-ENTRYPOINT [ "/home/docker/fixuid_entrypoint.sh" ]
+ENTRYPOINT [ "/usr/local/bin/fixuid"]
 CMD ["sleep", "inf"]
