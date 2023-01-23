@@ -1,3 +1,6 @@
+# instant-ngp build artifact
+./src/instant-ngp/instant-ngp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
