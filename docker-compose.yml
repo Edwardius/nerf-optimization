@@ -3,7 +3,7 @@ services:
   instant_ngp:
     build:
       context: .
-      dockerfile: docker/instant-ngp/instant_ngp.Dockerfile
+      dockerfile: docker/instant-ngp/instant-ngp.Dockerfile
     user: ${FIXUID:?}:${FIXGID:?}
     volumes:
       - ./src/instant-ngp:/project/instant-ngp
