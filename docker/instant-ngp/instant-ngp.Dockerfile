@@ -48,7 +48,6 @@ RUN pip install \
     tqdm 
 
 # ================= User & Environment Setup, Repos ===================
-WORKDIR /project
 ENV DEBIAN_FRONTEND interactive
 ENV PATH="/usr/local/cuda-11.4/bin:$PATH"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-11.4/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
@@ -72,5 +71,8 @@ RUN USER=docker && \
     mkdir -p /etc/fixuid && \                                                                                               
     printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/docker/" > /etc/fixuid/config.yml
 
-ENTRYPOINT [ "/usr/local/bin/fixuid"]
+USER docker:docker
+WORKDIR /home/docker/
+
+ENTRYPOINT ["/usr/local/bin/fixuid"]
 CMD ["sleep", "inf"]

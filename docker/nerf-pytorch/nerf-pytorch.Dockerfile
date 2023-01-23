@@ -32,7 +32,6 @@ RUN pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0
     --extra-index-url https://download.pytorch.org/whl/cu113
 
 # ================= User & Environment Setup, Repos ===================
-WORKDIR /project
 ENV DEBIAN_FRONTEND int`/home/e23zhou/code/test`eractive
 ENV PATH="/usr/local/cuda-11.1/bin:$PATH"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-11.1/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
@@ -58,6 +57,7 @@ RUN USER=docker && \
     printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/docker/" > /etc/fixuid/config.yml
 
 USER docker:docker
+WORKDIR /home/docker/
 
-ENTRYPOINT [ "/usr/local/bin/fixuid"]
+ENTRYPOINT ["/usr/local/bin/fixuid"]
 CMD ["sleep", "inf"]

@@ -6,7 +6,7 @@ services:
       dockerfile: docker/instant-ngp/instant-ngp.Dockerfile
     user: ${FIXUID:?}:${FIXGID:?}
     volumes:
-      - ./src/instant-ngp:/project/instant-ngp
+      - ./src/instant-ngp:/home/docker/instant-ngp
     ipc: host
     tty: true
     deploy:
@@ -23,7 +23,7 @@ services:
       dockerfile: docker/kilonerf/kilonerf.Dockerfile
     user: ${FIXUID:?}:${FIXGID:?}
     volumes:
-      - ./src/kilonerf:/project/kilonerf
+      - ./src/kilonerf:/home/docker/kilonerf
     ipc: host
     tty: true
     deploy:
@@ -40,7 +40,7 @@ services:
       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
     user: ${FIXUID:?}:${FIXGID:?}
     volumes:
-      - ./src/nerf-pytorch:/project/nerf-pytorch
+      - ./src/nerf-pytorch:/home/docker//nerf-pytorch
     ipc: host
     tty: true
     deploy:
