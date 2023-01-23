@@ -16,6 +16,7 @@ services:
           - driver: nvidia
             device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
             capabilities: [gpu]
+
   kilonerf:
     build:
       context: .
@@ -23,6 +24,23 @@ services:
     user: ${FIXUID:?}:${FIXGID:?}
     volumes:
       - ./src/kilonerf:/project/kilonerf
+    ipc: host
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+
+  nerf-pytorch:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/project/nerf-pytorch
     ipc: host
     tty: true
     deploy:

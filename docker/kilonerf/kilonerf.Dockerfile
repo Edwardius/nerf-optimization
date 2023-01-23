@@ -39,6 +39,9 @@ RUN pip install \
 RUN pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 \
     torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
 
+COPY src/kilonerf/cuda/dist/kilonerf_cuda-0.0.0-cp38-cp38-linux_x86_64.whl \
+     /project/kilonerf-cuda-ext/kilonerf_cuda-0.0.0-cp38-cp38-linux_x86_64.whl
+RUN pip install /project/kilonerf-cuda-ext/kilonerf_cuda-0.0.0-cp38-cp38-linux_x86_64.whl
 
 # ================= User & Environment Setup, Repos ===================
 WORKDIR /project
@@ -46,7 +49,7 @@ ENV DEBIAN_FRONTEND int`/home/e23zhou/code/test`eractive
 ENV PATH="/usr/local/cuda-11.1/bin:$PATH"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-11.1/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
 ENV TCNN_CUDA_ARCHITECTURES 86
-ENV KILONERF_HOME $PWD
+ENV KILONERF_HOME "/project/kilonerf"
 
 RUN apt-get update && apt-get install -y curl sudo && \
     rm -rf /var/lib/apt/lists/*
@@ -64,9 +67,9 @@ RUN USER=docker && \
     chown root:root /usr/local/bin/fixuid && \                                                                              
     chmod 4755 /usr/local/bin/fixuid && \
     mkdir -p /etc/fixuid && \                                                                                               
-    printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/docker/" > /etc/fixuid/config.yml
+    printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/docker\n  - /opt/venv" > /etc/fixuid/config.yml
 
 USER docker:docker
 
-ENTRYPOINT [ "/usr/local/bin/fixuid"]
+ENTRYPOINT ["/usr/local/bin/fixuid"]
 CMD ["sleep", "inf"]

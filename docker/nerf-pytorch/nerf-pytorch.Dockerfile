@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.1.1-devel-ubuntu20.04
+FROM nvidia/cuda:11.3.1-devel-ubuntu18.04
 ENV DEBIAN_FRONTEND noninteractive
 
 # ================= Dependencies ===================
@@ -14,31 +14,22 @@ RUN apt-get install -y software-properties-common && add-apt-repository ppa:dead
     && rm -rf /var/lib/apt/lists/*
 
 # kilonerf dependencies
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A4B469963BF863CC
-
-RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
-    libgl-dev \
-    freeglut3-dev --no-install-recommends
-
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN python3 -m pip install pip --upgrade
 
 RUN pip install \ 
-    numpy \
-    scikit-image \
-    scipy \
-    tqdm \
     imageio \
-    pyyaml \
     imageio-ffmpeg \
-    lpips \
+    matplotlib \
+    configargparse \
+    tensorboard>=2.0 \
+    tqdm \
     opencv-python 
 
-RUN pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 \
-    torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
-
+RUN pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 \
+    --extra-index-url https://download.pytorch.org/whl/cu113
 
 # ================= User & Environment Setup, Repos ===================
 WORKDIR /project
