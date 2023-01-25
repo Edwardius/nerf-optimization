@@ -21,8 +21,6 @@ RUN pip install cmake==3.22
 RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
     apt-utils \
     build-essential \
-    python3-dev \
-    python3-pip \
     libopenexr-dev \
     libxi-dev \
     libxrandr-dev \

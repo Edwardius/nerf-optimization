@@ -1,9 +1,11 @@
 version: "3.9"
 services:
-  instant_ngp:
+  instant-ngp:
     build:
       context: .
       dockerfile: docker/instant-ngp/instant-ngp.Dockerfile
+    image: vip-nerf/instant-ngp
+
     user: ${FIXUID:?}:${FIXGID:?}
     volumes:
       - ./src/instant-ngp:/home/docker/instant-ngp
@@ -21,6 +23,8 @@ services:
     build:
       context: .
       dockerfile: docker/kilonerf/kilonerf.Dockerfile
+    image: vip-nerf/kilonerf
+
     user: ${FIXUID:?}:${FIXGID:?}
     volumes:
       - ./src/kilonerf:/home/docker/kilonerf
@@ -38,6 +42,8 @@ services:
     build:
       context: .
       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+    image: vip-nerf/nerf-pytorch
+
     user: ${FIXUID:?}:${FIXGID:?}
     volumes:
       - ./src/nerf-pytorch:/home/docker//nerf-pytorch
