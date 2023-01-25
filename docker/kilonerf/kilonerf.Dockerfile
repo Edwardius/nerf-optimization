@@ -44,11 +44,10 @@ COPY src/kilonerf/cuda/dist/kilonerf_cuda-0.0.0-cp38-cp38-linux_x86_64.whl \
 RUN pip install /project/kilonerf-cuda-ext/kilonerf_cuda-0.0.0-cp38-cp38-linux_x86_64.whl
 
 # ================= User & Environment Setup, Repos ===================
-ENV DEBIAN_FRONTEND int`/home/e23zhou/code/test`eractive
+ENV DEBIAN_FRONTEND interactive
 ENV PATH="/usr/local/cuda-11.1/bin:$PATH"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-11.1/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
 ENV TCNN_CUDA_ARCHITECTURES 86
-ENV KILONERF_HOME "/project/kilonerf"
 
 RUN apt-get update && apt-get install -y curl sudo && \
     rm -rf /var/lib/apt/lists/*
@@ -71,5 +70,5 @@ RUN USER=docker && \
 USER docker:docker
 WORKDIR /home/docker/
 
-ENTRYPOINT ["/usr/local/bin/fixuid"]
+ENTRYPOINT ["/usr/local/bin/fixuid", "-q"]
 CMD ["sleep", "inf"]
