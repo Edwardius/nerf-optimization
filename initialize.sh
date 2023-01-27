@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 FIXUID=$(id -u)
 FIXGID=$(id -g)
 BASE_PORT=${BASE_PORT:-$(($(id -u)*20))}

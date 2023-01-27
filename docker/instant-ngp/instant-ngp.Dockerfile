@@ -1,49 +1,100 @@
-FROM nvidia/cuda:11.4.3-devel-ubuntu20.04
+FROM nvidia/cuda:10.2-devel-ubuntu18.04
+WORKDIR /home/docker/
 ENV DEBIAN_FRONTEND noninteractive
 
-# ================= Dependencies ===================
+# ================= Instant-ngp Dependencies & Setup ===================
+ENV COLMAP_VERSION=3.7
+ENV CMAKE_VERSION=3.21.0
+ENV PYTHON_VERSION=3.7.0
+ENV OPENCV_VERSION=4.5.5.62
+ENV CERES_SOLVER_VERSION=2.0.0
+
+RUN echo "Installing apt packages..." \
+	&& export DEBIAN_FRONTEND=noninteractive \
+	&& apt -y update --no-install-recommends \
+	&& apt -y install --no-install-recommends \
+	git \
+	wget \
+	ffmpeg \
+	tk-dev \
+	libxi-dev \
+	libc6-dev \
+	libbz2-dev \
+	libffi-dev \
+	libomp-dev \
+	libssl-dev \
+	zlib1g-dev \
+	libcgal-dev \
+	libgdbm-dev \
+	libglew-dev \
+	python3-dev \
+	python3-pip \
+	qtbase5-dev \
+	checkinstall \
+	libglfw3-dev \
+	libeigen3-dev \
+	libgflags-dev \
+	libxrandr-dev \
+	libopenexr-dev \
+	libsqlite3-dev \
+	libxcursor-dev \
+	build-essential \
+	libcgal-qt5-dev \
+	libxinerama-dev \
+	libboost-all-dev \
+	libfreeimage-dev \
+	libncursesw5-dev \
+	libatlas-base-dev \
+	libqt5opengl5-dev \
+	libgoogle-glog-dev \
+	libsuitesparse-dev \
+	python3-setuptools \
+	libreadline-gplv2-dev \
+	&& apt autoremove -y \
+	&& apt clean -y \
+	&& export DEBIAN_FRONTEND=dialog
+
 # python
 RUN apt-get update -y
 ENV http_proxy $HTTPS_PROXY
 ENV https_proxy $HTTPS_PROXY
 
 RUN apt-get install -y software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt-get update && apt-get install -y \
-    python3.10 \
+    python3.7 \
     python3-pip \
     python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
-# instant-ngp dependencies
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A4B469963BF863CC
+COPY ../src/instant-ngp/requirements.txt ./
 
-RUN pip install cmake==3.22
+RUN echo "Installing pip packages..." \
+	&& python3 -m pip install -U pip \
+	&& pip3 --no-cache-dir install -r ./requirements.txt \
+	&& pip3 --no-cache-dir install cmake==${CMAKE_VERSION} opencv-python==${OPENCV_VERSION} \
+	&& rm ./requirements.txt
 
-RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
-    apt-utils \
-    build-essential \
-    libopenexr-dev \
-    libxi-dev \
-    libxrandr-dev \
-    libglfw3-dev \
-    libglew-dev \
-    libomp-dev \
-    libxinerama-dev \
-    libxcursor-dev --no-install-recommends
+RUN echo "Installing Ceres Solver ver. ${CERES_SOLVER_VERSION}..." \
+	&& cd /opt \
+	&& git clone https://github.com/ceres-solver/ceres-solver \
+	&& cd ./ceres-solver \
+	&& git checkout ${CERES_SOLVER_VERSION} \
+	&& mkdir ./build \
+	&& cd ./build \
+	&& cmake ../ -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF \
+	&& make -j \
+	&& make install
 
-ENV VIRTUAL_ENV=/opt/venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-RUN python3 -m pip install pip --upgrade
-
-RUN pip install \ 
-    commentjson \
-    imageio \
-    numpy \
-    opencv-python-headless \
-    pybind11 \
-    pyquaternion \
-    scipy \
-    tqdm 
+RUN echo "Installing COLMAP ver. ${COLMAP_VERSION}..." \
+	&& cd /opt \
+	&& git clone https://github.com/colmap/colmap \
+	&& cd ./colmap \
+	&& git checkout ${COLMAP_VERSION} \
+	&& mkdir ./build \
+	&& cd ./build \
+	&& cmake ../ \
+	&& make -j \
+	&& make install \
+	&& colmap -h
 
 # ================= User & Environment Setup, Repos ===================
 ENV DEBIAN_FRONTEND interactive
@@ -69,7 +120,6 @@ RUN USER=docker && \
     mkdir -p /etc/fixuid && \                                                                                               
     printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/docker/" > /etc/fixuid/config.yml
 
-USER docker:docker
 WORKDIR /home/docker/
 
 ENTRYPOINT ["/usr/local/bin/fixuid"]
