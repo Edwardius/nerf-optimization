@@ -1,5 +1,49 @@
 FROM nvidia/cuda:11.1.1-devel-ubuntu20.04
 ENV DEBIAN_FRONTEND noninteractive
+ENV CMAKE_VERSION=3.21.0
+
+RUN echo "Installing apt packages..." \
+	&& export DEBIAN_FRONTEND=noninteractive \
+	&& apt -y update --no-install-recommends \
+	&& apt -y install --no-install-recommends \
+	git \
+	wget \
+	ffmpeg \
+	tk-dev \
+	libxi-dev \
+	libc6-dev \
+	libbz2-dev \
+	libffi-dev \
+	libomp-dev \
+	libssl-dev \
+	zlib1g-dev \
+	libcgal-dev \
+	libgdbm-dev \
+	libglew-dev \
+	qtbase5-dev \
+	checkinstall \
+	libglfw3-dev \
+	libeigen3-dev \
+	libgflags-dev \
+	libxrandr-dev \
+	libopenexr-dev \
+	libsqlite3-dev \
+	libxcursor-dev \
+	build-essential \
+	libcgal-qt5-dev \
+	libxinerama-dev \
+	libboost-all-dev \
+	libfreeimage-dev \
+	libncursesw5-dev \
+	libatlas-base-dev \
+	libqt5opengl5-dev \
+	libgoogle-glog-dev \
+	libsuitesparse-dev \
+	python3-setuptools \
+	libreadline-gplv2-dev \
+	&& apt autoremove -y \
+	&& apt clean -y \
+	&& export DEBIAN_FRONTEND=dialog
 
 # ================= Dependencies ===================
 # python
@@ -8,47 +52,34 @@ ENV http_proxy $HTTPS_PROXY
 ENV https_proxy $HTTPS_PROXY
 
 RUN apt-get install -y software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt-get update && apt-get install -y \
-    python3.10 \
+    python3.7 \
     python3-pip \
     python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
-# kilonerf dependencies
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A4B469963BF863CC
 
 RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
+    wget \
     libgl-dev \
+    build-essential \
+    gfortran \
     freeglut3-dev --no-install-recommends
 
-ENV VIRTUAL_ENV=/opt/venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-RUN python3 -m pip install pip --upgrade
+RUN apt-get update -y && apt-get install -y gfortran libopenblas-dev
+RUN wget http://icl.utk.edu/projectsfiles/magma/downloads/magma-2.5.4.tar.gz
+RUN tar -zxvf magma-2.5.4.tar.gz
 
-RUN pip install \ 
-    numpy \
-    scikit-image \
-    scipy \
-    tqdm \
-    imageio \
-    pyyaml \
-    imageio-ffmpeg \
-    lpips \
-    opencv-python 
+WORKDIR /magma-2.5.4
 
-RUN pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 \
-    torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+RUN cp make.inc-examples/make.inc.openblas make.inc
+ENV GPU_TARGET "Maxwell Pascal Volta Turing Ampere"
+ENV CUDADIR /usr/local/cuda
+ENV OPENBLASDIR "/usr"
+RUN make
+RUN make install prefix=/usr/local/magma
 
-COPY src/kilonerf/cuda/dist/kilonerf_cuda-0.0.0-cp38-cp38-linux_x86_64.whl \
-     /home/docker/kilonerf-cuda-ext/kilonerf_cuda-0.0.0-cp38-cp38-linux_x86_64.whl
-RUN pip install /project/kilonerf-cuda-ext/kilonerf_cuda-0.0.0-cp38-cp38-linux_x86_64.whl
-
-# ================= User & Environment Setup, Repos ===================
-ENV DEBIAN_FRONTEND interactive
-ENV PATH="/usr/local/cuda-11.1/bin:$PATH"
-ENV LD_LIBRARY_PATH="/usr/local/cuda-11.1/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
-ENV TCNN_CUDA_ARCHITECTURES 86
-
+# ================= User, Perms, & Environment Setup ===================
 RUN apt-get update && apt-get install -y curl sudo && \
     rm -rf /var/lib/apt/lists/*
 
@@ -65,10 +96,40 @@ RUN USER=docker && \
     chown root:root /usr/local/bin/fixuid && \                                                                              
     chmod 4755 /usr/local/bin/fixuid && \
     mkdir -p /etc/fixuid && \                                                                                               
-    printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/docker/\n  - /opt/venv/" > /etc/fixuid/config.yml
+    printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/docker/" > /etc/fixuid/config.yml
 
 USER docker:docker
 WORKDIR /home/docker/
 
+# ================= More Kilonerf Dependencies ===================
+ENV VIRTUAL_ENV=/home/docker/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN python3 -m pip install pip --upgrade
+
+RUN pip install \ 
+    cmake==${CMAKE_VERSION} \
+    matplotlib \
+    numpy \
+    scikit-image \
+    scipy \
+    tqdm \
+    imageio \
+    pyyaml \
+    imageio-ffmpeg \
+    lpips \
+    opencv-python 
+
+RUN pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 \
+    torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+
+ENV PATH="/home/docker/:/usr/local/cuda-11.1/bin:$PATH"
+ENV LD_LIBRARY_PATH="/usr/local/cuda-11.1/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
+
+# ================= User, Perms, & Environment Setup ===================
+ENV DEBIAN_FRONTEND interactive
+
 ENTRYPOINT ["/usr/local/bin/fixuid", "-q"]
+
+# ================= end command to keep container running ===================
 CMD ["sleep", "inf"]

@@ -1,5 +1,13 @@
+# repo setup extras
+.env
+
 # instant-ngp build artifact
 src/instant-ngp/instant-ngp
+
+# logs from models
+logs/
+src/nerf-pytorch/data/
+src/nerf-pytorch/tiny_nerf_data.npz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

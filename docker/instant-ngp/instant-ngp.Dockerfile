@@ -1,11 +1,10 @@
-FROM nvidia/cuda:10.2-devel-ubuntu18.04
-WORKDIR /home/docker/
+FROM nvidia/cuda:11.1.1-devel-ubuntu20.04
 ENV DEBIAN_FRONTEND noninteractive
 
 # ================= Instant-ngp Dependencies & Setup ===================
 ENV COLMAP_VERSION=3.7
 ENV CMAKE_VERSION=3.21.0
-ENV PYTHON_VERSION=3.7.0
+ENV PYTHON_VERSION=3.10.0
 ENV OPENCV_VERSION=4.5.5.62
 ENV CERES_SOLVER_VERSION=2.0.0
 
@@ -27,8 +26,6 @@ RUN echo "Installing apt packages..." \
 	libcgal-dev \
 	libgdbm-dev \
 	libglew-dev \
-	python3-dev \
-	python3-pip \
 	qtbase5-dev \
 	checkinstall \
 	libglfw3-dev \
@@ -48,24 +45,22 @@ RUN echo "Installing apt packages..." \
 	libqt5opengl5-dev \
 	libgoogle-glog-dev \
 	libsuitesparse-dev \
-	python3-setuptools \
 	libreadline-gplv2-dev \
 	&& apt autoremove -y \
 	&& apt clean -y \
 	&& export DEBIAN_FRONTEND=dialog
 
-# python
-RUN apt-get update -y
-ENV http_proxy $HTTPS_PROXY
-ENV https_proxy $HTTPS_PROXY
-
-RUN apt-get install -y software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt-get update && apt-get install -y \
-    python3.7 \
-    python3-pip \
-    python3-venv \
-    && rm -rf /var/lib/apt/lists/*
-
 COPY ../src/instant-ngp/requirements.txt ./
+
+
+RUN echo "Installing Python ver. ${PYTHON_VERSION}..." \
+	&& cd /opt \
+	&& wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz \
+	&& tar xzf Python-${PYTHON_VERSION}.tgz \
+	&& cd ./Python-${PYTHON_VERSION} \
+	&& ./configure --enable-optimizations \
+	&& make \
+	&& checkinstall
 
 RUN echo "Installing pip packages..." \
 	&& python3 -m pip install -U pip \
@@ -120,6 +115,7 @@ RUN USER=docker && \
     mkdir -p /etc/fixuid && \                                                                                               
     printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/docker/" > /etc/fixuid/config.yml
 
+USER docker:docker
 WORKDIR /home/docker/
 
 ENTRYPOINT ["/usr/local/bin/fixuid"]

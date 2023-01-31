@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.3.1-devel-ubuntu18.04
+FROM nvidia/cuda:11.7.1-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND noninteractive
 
 # ================= Dependencies ===================
@@ -6,6 +6,8 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -y
 ENV http_proxy $HTTPS_PROXY
 ENV https_proxy $HTTPS_PROXY
+
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 
 RUN apt-get install -y software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt-get update && apt-get install -y \
     python3.10 \
@@ -28,14 +30,12 @@ RUN pip install \
     tqdm \
     opencv-python 
 
-RUN pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 \
-    --extra-index-url https://download.pytorch.org/whl/cu113
+RUN pip install torch torchvision torchaudio
 
 # ================= User & Environment Setup, Repos ===================
-ENV DEBIAN_FRONTEND int`/home/e23zhou/code/test`eractive
-ENV PATH="/usr/local/cuda-11.1/bin:$PATH"
-ENV LD_LIBRARY_PATH="/usr/local/cuda-11.1/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
-ENV TCNN_CUDA_ARCHITECTURES 86
+ENV DEBIAN_FRONTEND interactive
+ENV PATH="/usr/local/cuda-11.7/bin:$PATH"
+ENV LD_LIBRARY_PATH="/usr/local/cuda-11.7/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
 ENV KILONERF_HOME $PWD
 
 RUN apt-get update && apt-get install -y curl sudo && \
