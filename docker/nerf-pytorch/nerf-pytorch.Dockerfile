@@ -7,7 +7,7 @@ RUN apt-get update -y
 ENV http_proxy $HTTPS_PROXY
 ENV https_proxy $HTTPS_PROXY
 
-RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 wget unzip -y
 
 RUN apt-get install -y software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt-get update && apt-get install -y \
     python3.10 \
@@ -22,6 +22,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN python3 -m pip install pip --upgrade
 
 RUN pip install \ 
+    numpy \
     imageio \
     imageio-ffmpeg \
     matplotlib \
@@ -36,7 +37,6 @@ RUN pip install torch torchvision torchaudio
 ENV DEBIAN_FRONTEND interactive
 ENV PATH="/usr/local/cuda-11.7/bin:$PATH"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-11.7/lib64:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
-ENV KILONERF_HOME $PWD
 
 RUN apt-get update && apt-get install -y curl sudo && \
     rm -rf /var/lib/apt/lists/*
