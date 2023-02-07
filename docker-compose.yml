@@ -49,6 +49,9 @@ services:
     build:
       context: .
       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        WANDB_KEY: ${WANDB_KEY}
+        
     image: vip-nerf/nerf-pytorch
 
     user: ${FIXUID:?}:${FIXGID:?}
@@ -61,5 +64,5 @@ services:
         reservations:
           devices:
           - driver: nvidia
-            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
+            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
             capabilities: [gpu]

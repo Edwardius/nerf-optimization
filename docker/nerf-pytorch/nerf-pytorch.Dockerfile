@@ -1,5 +1,6 @@
 FROM nvidia/cuda:11.7.1-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND noninteractive
+ARG WANDB_KEY
 
 # ================= Dependencies ===================
 # python
@@ -29,7 +30,8 @@ RUN pip install \
     configargparse \
     tensorboard>=2.0 \
     tqdm \
-    opencv-python 
+    opencv-python \
+    wandb
 
 RUN pip install torch torchvision torchaudio
 
@@ -58,6 +60,8 @@ RUN USER=docker && \
 
 USER docker:docker
 WORKDIR /home/docker/
+
+RUN wandb login $WANDB_KEY
 
 ENTRYPOINT ["/usr/local/bin/fixuid"]
 CMD ["sleep", "inf"]
