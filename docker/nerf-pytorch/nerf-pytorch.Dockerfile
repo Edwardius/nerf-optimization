@@ -1,6 +1,5 @@
 FROM nvidia/cuda:11.7.1-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND noninteractive
-ARG WANDB_KEY
 
 # ================= Dependencies ===================
 # python
@@ -31,6 +30,9 @@ RUN pip install \
     tensorboard>=2.0 \
     tqdm \
     opencv-python \
+    
+    # Weights and Biases login for mlOPs
+    moviepy \
     wandb
 
 RUN pip install torch torchvision torchaudio
@@ -56,12 +58,17 @@ RUN USER=docker && \
     chown root:root /usr/local/bin/fixuid && \                                                                              
     chmod 4755 /usr/local/bin/fixuid && \
     mkdir -p /etc/fixuid && \                                                                                               
-    printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/docker/" > /etc/fixuid/config.yml
+    printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/docker/ \n  - /tmp/" > /etc/fixuid/config.yml
 
 USER docker:docker
 WORKDIR /home/docker/
 
-RUN wandb login $WANDB_KEY
+# Weights and Biases login for mlOPs
+ARG USER_WANDB_MODE
+ARG USER_WANDB_KEY
+ENV WANDB_MODE $USER_WANDB_MODE
+
+RUN if [ ! -z $USER_WANDB_KEY ]; then wandb login $USER_WANDB_KEY; fi
 
 ENTRYPOINT ["/usr/local/bin/fixuid"]
 CMD ["sleep", "inf"]

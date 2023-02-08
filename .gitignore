@@ -1,5 +1,6 @@
 # repo setup extras
 .env
+wandb/
 
 # instant-ngp build artifact
 src/instant-ngp/instant-ngp

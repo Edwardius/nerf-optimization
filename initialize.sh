@@ -24,6 +24,6 @@ echo "GUI_TOOLS_VNC_PORT=$GUI_TOOLS_VNC_PORT" >> ".env"
 echo "USERNAME=${USER}" >> ".env"
 echo "WANDB_MODE=${WANDB_MODE}" >> ".env"
 
-if [ WANDB_MODE == "online" ]; then
+if [ $WANDB_MODE == "online" ]; then
     echo "WANDB_KEY=${key}" >> ".env"
 fi
