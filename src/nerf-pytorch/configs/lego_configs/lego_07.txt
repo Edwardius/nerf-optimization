@@ -1,9 +1,10 @@
-expname = test_lego_debug
+expname = test_lego_darwin_flopratio_07_const_depth_emb_skip
+name = test_wandb_darwin_flopratio_07_const_depth_emb_skip
+netwidth = 214
+
 basedir = ./logs
 datadir = ./data/nerf_synthetic/lego
 dataset_type = blender
-
-ft_path = ./logs/test_lego_debug/180000.tar
 
 no_batching = True
 
@@ -30,4 +31,3 @@ i_video = 10000
 i_print = 200
 
 project = nerf-pytorch
-name = test_wandb_debug

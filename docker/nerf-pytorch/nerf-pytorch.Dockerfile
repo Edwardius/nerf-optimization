@@ -70,5 +70,5 @@ ENV WANDB_MODE $USER_WANDB_MODE
 
 RUN if [ ! -z $USER_WANDB_KEY ]; then wandb login $USER_WANDB_KEY; fi
 
+WORKDIR /home/docker/nerf-pytorch
 ENTRYPOINT ["/usr/local/bin/fixuid"]
-CMD ["sleep", "inf"]
