@@ -1,6 +1,6 @@
-expname = test_fern_darwin_flopratio_005_const_depth_emb_skip
-name = fern_wandb_darwin_flopratio_005_const_depth_emb_skip
-netwidth = 51
+expname = test_fern_darwin_flopratio_005_const_depth_emb_skip_def12
+name = fern_wandb_darwin_flopratio_005_const_depth_emb_skip_def12
+netwidth = 12
 
 basedir = ./logs
 datadir = ./data/nerf_llff_data/fern

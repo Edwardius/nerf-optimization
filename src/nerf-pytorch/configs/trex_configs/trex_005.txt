@@ -1,6 +1,6 @@
 expname = test_trex_darwin_flopratio_005_const_depth_emb_skip
 name = trex_wandb_darwin_flopratio_005_const_depth_emb_skip
-netwidth = 51
+netwidth = 10
 
 basedir = ./logs
 datadir = ./data/nerf_llff_data/trex
