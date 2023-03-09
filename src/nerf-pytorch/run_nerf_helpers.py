@@ -62,36 +62,69 @@ def get_embedder(multires, i=0):
     embed = lambda x, eo=embedder_obj : eo.embed(x)
     return embed, embedder_obj.out_dim
 
+class BlockSpec():
+    def __init__(self, D, W):
+        self.depth = D
+        self.channels = W
 
 # Model
 class NeRF(nn.Module):
-    def __init__(self, D=8, W=256, input_ch=3, input_ch_views=3, output_ch=4, skips=[4], use_viewdirs=False):
+    def __init__(self, D, W, input_ch=3, input_ch_views=3, output_ch=4, skips=[4], use_viewdirs=False):
         """ 
         """
         super(NeRF, self).__init__()
-        self.D = D
-        self.W = W
+        self.blockspecs = [BlockSpec(D, W) for i in list(range(3))]
+            
+        self.D = self.blockspecs[2].depth
+        self.W = self.blockspecs[2].channels
+        self.Ws = []
+        
+        for i in range(3):
+            self.Ws.append(self.blockspecs[i].channels)
+
         self.input_ch = input_ch
         self.input_ch_views = input_ch_views
-        self.skips = skips
+        self.skips = []
+        self.skips.append(self.D // 2)
+        
+        if self.skips[0] == 0: return
+        self.Ws.append(self.skips)
         self.use_viewdirs = use_viewdirs
         
-        self.pts_linears = nn.ModuleList(
-            [nn.Linear(input_ch, W)] + [nn.Linear(W, W) if i not in self.skips else nn.Linear(W + input_ch, W) for i in range(D-1)])
+        self.pts_linears = nn.ModuleList([nn.Linear(input_ch, self.Ws[0])])
+        switch = False
+        for i in range(self.D-1):
+            if i in self.skips:
+                switch = True
+                self.pts_linears.append(nn.Linear(self.Ws[1] + input_ch, self.Ws[2]))
+                continue
+                
+            if not switch:
+                if i + 1 in self.skips:
+                    self.pts_linears.append(nn.Linear(self.Ws[0], self.Ws[1]))
+                    continue
+                    
+                self.pts_linears.append(nn.Linear(self.Ws[0], self.Ws[0]))
+            else:
+                self.pts_linears.append(nn.Linear(self.Ws[2], self.Ws[2]))
+            
+
+#         self.pts_linears = nn.ModuleList(
+#             [nn.Linear(input_ch, self.W)] + [nn.Linear(self.W, self.W) if i not in self.skips else nn.Linear(self.W + input_ch, self.W) for i in range(self.D-1)])
         
         ### Implementation according to the official code release (https://github.com/bmild/nerf/blob/master/run_nerf_helpers.py#L104-L105)
-        self.views_linears = nn.ModuleList([nn.Linear(input_ch_views + W, W//2)])
+        self.views_linears = nn.ModuleList([nn.Linear(input_ch_views + self.W, self.W//2)])
 
         ### Implementation according to the paper
         # self.views_linears = nn.ModuleList(
         #     [nn.Linear(input_ch_views + W, W//2)] + [nn.Linear(W//2, W//2) for i in range(D//2)])
         
         if use_viewdirs:
-            self.feature_linear = nn.Linear(W, W)
-            self.alpha_linear = nn.Linear(W, 1)
-            self.rgb_linear = nn.Linear(W//2, 3)
+            self.feature_linear = nn.Linear(self.W, self.W)
+            self.alpha_linear = nn.Linear(self.W, 1)
+            self.rgb_linear = nn.Linear(self.W//2, 3)
         else:
-            self.output_linear = nn.Linear(W, output_ch)
+            self.output_linear = nn.Linear(self.W, output_ch)
 
     def forward(self, x):
         input_pts, input_views = torch.split(x, [self.input_ch, self.input_ch_views], dim=-1)

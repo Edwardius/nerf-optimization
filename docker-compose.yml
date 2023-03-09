@@ -66,32 +66,32 @@ services:
         reservations:
           devices:
           - driver: nvidia
-            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
             capabilities: [gpu]
 
-  nerf-pytorch-09:
-    build:
-      context: .
-      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-      args:
-        USER_WANDB_MODE: ${WANDB_MODE:-offline}
-        USER_WANDB_KEY: ${WANDB_KEY:-}
+  # nerf-pytorch-09:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+  #     args:
+  #       USER_WANDB_MODE: ${WANDB_MODE:-offline}
+  #       USER_WANDB_KEY: ${WANDB_KEY:-}
 
-    image: vip-nerf/nerf-pytorch
+  #   image: vip-nerf/nerf-pytorch
 
-    user: ${FIXUID:?}:${FIXGID:?}
-    volumes:
-      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-    ipc: host
-    tty: true
-    command: ["python3", "run_nerf.py", "--config", "configs/fern_configs/fern_09.txt"]
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - driver: nvidia
-            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
-            capabilities: [gpu]
+  #   user: ${FIXUID:?}:${FIXGID:?}
+  #   volumes:
+  #     - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+  #   ipc: host
+  #   tty: true
+  #   command: ["python3", "run_nerf.py", "--config", "configs/fern_configs/fern_09.txt"]
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #         - driver: nvidia
+  #           device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+  #           capabilities: [gpu]
 
   nerf-pytorch-08:
     build:
@@ -114,32 +114,32 @@ services:
         reservations:
           devices:
           - driver: nvidia
-            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
             capabilities: [gpu]
 
-  nerf-pytorch-07:
-    build:
-      context: .
-      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-      args:
-        USER_WANDB_MODE: ${WANDB_MODE:-offline}
-        USER_WANDB_KEY: ${WANDB_KEY:-}
+  # nerf-pytorch-07:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+  #     args:
+  #       USER_WANDB_MODE: ${WANDB_MODE:-offline}
+  #       USER_WANDB_KEY: ${WANDB_KEY:-}
 
-    image: vip-nerf/nerf-pytorch
+  #   image: vip-nerf/nerf-pytorch
 
-    user: ${FIXUID:?}:${FIXGID:?}
-    volumes:
-      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-    ipc: host
-    tty: true
-    command: ["python3", "run_nerf.py", "--config", "configs/fern_configs/fern_07.txt"]
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - driver: nvidia
-            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
-            capabilities: [gpu]
+  #   user: ${FIXUID:?}:${FIXGID:?}
+  #   volumes:
+  #     - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+  #   ipc: host
+  #   tty: true
+  #   command: ["python3", "run_nerf.py", "--config", "configs/fern_configs/fern_07.txt"]
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #         - driver: nvidia
+  #           device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+  #           capabilities: [gpu]
 
   nerf-pytorch-06:
     build:
@@ -162,32 +162,32 @@ services:
         reservations:
           devices:
           - driver: nvidia
-            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
             capabilities: [gpu]
 
-  nerf-pytorch-05:
-    build:
-      context: .
-      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-      args:
-        USER_WANDB_MODE: ${WANDB_MODE:-offline}
-        USER_WANDB_KEY: ${WANDB_KEY:-}
+  # nerf-pytorch-05:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+  #     args:
+  #       USER_WANDB_MODE: ${WANDB_MODE:-offline}
+  #       USER_WANDB_KEY: ${WANDB_KEY:-}
 
-    image: vip-nerf/nerf-pytorch
+  #   image: vip-nerf/nerf-pytorch
 
-    user: ${FIXUID:?}:${FIXGID:?}
-    volumes:
-      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-    ipc: host
-    tty: true
-    command: ["python3", "run_nerf.py", "--config", "configs/fern_configs/fern_05.txt"]
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - driver: nvidia
-            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
-            capabilities: [gpu]
+  #   user: ${FIXUID:?}:${FIXGID:?}
+  #   volumes:
+  #     - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+  #   ipc: host
+  #   tty: true
+  #   command: ["python3", "run_nerf.py", "--config", "configs/fern_configs/fern_05.txt"]
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #         - driver: nvidia
+  #           device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+  #           capabilities: [gpu]
 
   nerf-pytorch-04:
     build:
@@ -210,32 +210,32 @@ services:
         reservations:
           devices:
           - driver: nvidia
-            device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
             capabilities: [gpu]
 
-  nerf-pytorch-03:
-    build:
-      context: .
-      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-      args:
-        USER_WANDB_MODE: ${WANDB_MODE:-offline}
-        USER_WANDB_KEY: ${WANDB_KEY:-}
+  # nerf-pytorch-03:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+  #     args:
+  #       USER_WANDB_MODE: ${WANDB_MODE:-offline}
+  #       USER_WANDB_KEY: ${WANDB_KEY:-}
 
-    image: vip-nerf/nerf-pytorch
+  #   image: vip-nerf/nerf-pytorch
 
-    user: ${FIXUID:?}:${FIXGID:?}
-    volumes:
-      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-    ipc: host
-    tty: true
-    command: ["python3", "run_nerf.py", "--config", "configs/fern_configs/fern_03.txt"]
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - driver: nvidia
-            device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
-            capabilities: [gpu]
+  #   user: ${FIXUID:?}:${FIXGID:?}
+  #   volumes:
+  #     - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+  #   ipc: host
+  #   tty: true
+  #   command: ["python3", "run_nerf.py", "--config", "configs/fern_configs/fern_03.txt"]
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #         - driver: nvidia
+  #           device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
+  #           capabilities: [gpu]
 
   nerf-pytorch-02:
     build:
@@ -258,32 +258,32 @@ services:
         reservations:
           devices:
           - driver: nvidia
-            device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
             capabilities: [gpu]
 
-  nerf-pytorch-01:
-    build:
-      context: .
-      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-      args:
-        USER_WANDB_MODE: ${WANDB_MODE:-offline}
-        USER_WANDB_KEY: ${WANDB_KEY:-}
+  # nerf-pytorch-01:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+  #     args:
+  #       USER_WANDB_MODE: ${WANDB_MODE:-offline}
+  #       USER_WANDB_KEY: ${WANDB_KEY:-}
 
-    image: vip-nerf/nerf-pytorch
+  #   image: vip-nerf/nerf-pytorch
 
-    user: ${FIXUID:?}:${FIXGID:?}
-    volumes:
-      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-    ipc: host
-    tty: true
-    command: ["python3", "run_nerf.py", "--config", "configs/fern_configs/fern_01.txt"]
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - driver: nvidia
-            device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
-            capabilities: [gpu]
+  #   user: ${FIXUID:?}:${FIXGID:?}
+  #   volumes:
+  #     - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+  #   ipc: host
+  #   tty: true
+  #   command: ["python3", "run_nerf.py", "--config", "configs/fern_configs/fern_01.txt"]
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #         - driver: nvidia
+  #           device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
+  #           capabilities: [gpu]
 
   nerf-pytorch-005:
     build:
@@ -306,7 +306,7 @@ services:
         reservations:
           devices:
           - driver: nvidia
-            device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
             capabilities: [gpu]
             
 
