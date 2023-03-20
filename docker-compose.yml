@@ -53,7 +53,26 @@ services:
 
     user: ${FIXUID:?}:${FIXGID:?}
     volumes:
-      - ./src/nerf-pytorch:/home/docker//nerf-pytorch
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  efficient-nerf:
+    build:
+      context: .
+      dockerfile: docker/efficient-nerf/efficient-nerf.Dockerfile
+    image: vip-nerf/efficient-nerf
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/EfficientNeRF:/home/docker/EfficientNeRF
     ipc: host
     tty: true
     deploy:

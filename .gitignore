@@ -4,9 +4,10 @@
 # instant-ngp build artifact
 src/instant-ngp/instant-ngp
 
-# logs from models
+# logs and data from models
 logs/
 src/nerf-pytorch/data/
+src/EfficientNeRF/data/
 src/nerf-pytorch/tiny_nerf_data.npz
 
 # Byte-compiled / optimized / DLL files

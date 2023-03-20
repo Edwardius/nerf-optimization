@@ -14,9 +14,11 @@ $ ./initialize.sh
 This only needs to be done once. Confirm that you're project is initialized by checking the `.env` file. It should contain something like:
 
 ```
-COMPOSE_PROJECT_NAME=nerf_optimization_e23zhou
+COMPOSE_PROJECT_NAME=nerf-optimization-e23zhou
 FIXUID=1011
 FIXGID=1014
+GUI_TOOLS_VNC_PORT=20220
+USERNAME=e23zhou
 ```
 
 ## Inside Instant NGP Container
@@ -34,9 +36,9 @@ python3 scripts/run.py path/to/data_images
 
 ## Inside Kilonerf Container
 ---
-**BEFORE YOU ENTER** make sure that you mount a your downloaded nsvf dataset
+**BEFORE YOU ENTER** make sure that you mount your downloaded nsvf dataset
 
-```
+```bash
 wget https://dl.fbaipublicfiles.com/nsvf/dataset/Synthetic_NSVF.zip && unzip -n Synthetic_NSVF.zip
 wget https://dl.fbaipublicfiles.com/nsvf/dataset/Synthetic_NeRF.zip && unzip -n Synthetic_NeRF.zip
 wget https://dl.fbaipublicfiles.com/nsvf/dataset/BlendedMVS.zip && unzip -n BlendedMVS.zip
@@ -75,6 +77,24 @@ To train a low-res `lego` NeRF:
 python run_nerf.py --config configs/lego.txt
 ```
 After training for 100k iterations (~4 hours on a single 2080 Ti), you can find the following video at `logs/lego_test/lego_test_spiral_100000_rgb.mp4`.
+
+## EfficientNeRF
+```bash
+ export DATA_DIR=/path/to/lego
+ python3 train.py \
+   --dataset_name blender \
+   --root_dir $DATA_DIR \
+   --N_samples 128 \
+   --N_importance 5 --img_wh 800 800 \
+   --num_epochs 16 --batch_size 4096 \
+   --optimizer radam --lr 2e-3 \
+   --lr_scheduler poly \
+   --coord_scope 3.0 \
+   --warmup_step 5000\
+   --sigma_init 30.0 \
+   --weight_threashold 1e-5 \
+   --exp_name lego_coarse128_fine5_V384
+```
 
 ## To copy things out
 ---
