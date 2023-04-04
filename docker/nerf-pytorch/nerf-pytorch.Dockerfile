@@ -30,6 +30,8 @@ RUN pip install \
     tensorboard>=2.0 \
     tqdm \
     opencv-python \
+    scipy \
+    torchmetrics[image] \
     
     # Weights and Biases login for mlOPs
     moviepy \

@@ -11,7 +11,8 @@
             "program": "run_nerf.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["--config", "configs/lego_configs/lego.txt"]
+            "args": ["--config", "configs/trex_configs_diffW/trex_10.txt", "--netwidth", "240", "248", "256"],
+            "env": {"WANDB_MODE": "offline"}
         }
     ]
 }

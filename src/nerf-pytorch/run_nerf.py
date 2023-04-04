@@ -9,6 +9,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from tqdm import tqdm, trange
 
+from torchmetrics.image.lpip import LearnedPerceptualImagePatchSimilarity
+
 import matplotlib.pyplot as plt
 
 from run_nerf_helpers import *
@@ -31,7 +33,7 @@ np.random.seed(0)
 DEBUG = False
 
 def wandb_init(args):
-    wandb.init( project=args.project, name=args.name, config=args )
+    wandb.init( project=args.project, name=args.expname, config=args )
 
 def batchify(fn, chunk):
     """Constructs a version of 'fn' that applies to smaller batches.
@@ -155,10 +157,12 @@ def render_path(render_poses, hwf, K, chunk, render_kwargs, gt_imgs=None, savedi
 
     rgbs = []
     disps = []
+    times = []
 
     t = time.time()
     for i, c2w in enumerate(tqdm(render_poses)):
         print(i, time.time() - t)
+        times.append(time.time() - t)
         t = time.time()
         rgb, disp, acc, _ = render(H, W, K, chunk=chunk, c2w=c2w[:3,:4], **render_kwargs)
         rgbs.append(rgb.cpu().numpy())
@@ -177,7 +181,10 @@ def render_path(render_poses, hwf, K, chunk, render_kwargs, gt_imgs=None, savedi
             filename = os.path.join(savedir, '{:03d}.png'.format(i))
             imageio.imwrite(filename, rgb8)
 
-
+    avg_time = sum(times) / len(times)
+    wandb.log({
+                "Average Render Time": avg_time,
+            })
     rgbs = np.stack(rgbs, 0)
     disps = np.stack(disps, 0)
 
@@ -195,14 +202,14 @@ def create_nerf(args):
         embeddirs_fn, input_ch_views = get_embedder(args.multires_views, args.i_embed)
     output_ch = 5 if args.N_importance > 0 else 4
     skips = [4]
-    model = NeRF(D=args.netdepth, W=args.netwidth,
+    model = NeRF(D=args.netdepth, W=args.netwidth_fine,
                  input_ch=input_ch, output_ch=output_ch, skips=skips,
                  input_ch_views=input_ch_views, use_viewdirs=args.use_viewdirs).to(device)
     grad_vars = list(model.parameters())
 
     model_fine = None
     if args.N_importance > 0:
-        model_fine = NeRF(D=args.netdepth_fine, W=args.netwidth_fine,
+        model_fine = NeRF(D=args.netdepth, W=args.netwidth,
                           input_ch=input_ch, output_ch=output_ch, skips=skips,
                           input_ch_views=input_ch_views, use_viewdirs=args.use_viewdirs).to(device)
         grad_vars += list(model_fine.parameters())
@@ -449,11 +456,11 @@ def config_parser():
     # training options
     parser.add_argument("--netdepth", type=int, default=8, 
                         help='layers in network')
-    parser.add_argument("--netwidth", type=int, default=256, 
+    parser.add_argument("--netwidth", nargs='+', type=int, required=True, 
                         help='channels per layer')
     parser.add_argument("--netdepth_fine", type=int, default=8, 
                         help='layers in fine network')
-    parser.add_argument("--netwidth_fine", type=int, default=256, 
+    parser.add_argument("--netwidth_fine", nargs='+', type=int, required=True, 
                         help='channels per layer in fine network')
     parser.add_argument("--N_rand", type=int, default=32*32*4, 
                         help='batch size (number of random rays per gradient step)')
@@ -723,6 +730,9 @@ def train():
 
     # Summary writers
     # writer = SummaryWriter(os.path.join(basedir, 'summaries', expname))
+
+    #lpips init
+    lpips = LearnedPerceptualImagePatchSimilarity(net_type='vgg', normalize=True)
     
     start = start + 1
     for i in trange(start, N_iters):
@@ -846,10 +856,27 @@ def train():
             with torch.no_grad():
                 rgbs, _ = render_path(torch.Tensor(poses[i_test]).to(device), hwf, K, args.chunk, render_kwargs_test, gt_imgs=images[i_test], savedir=testsavedir)
             print('Saved test set')
-      
+
+            # find mean SSIM
+            int8_images = to8b(images[i_test].detach().cpu().numpy())
+            ssims_r = np.float64([ssim(rgb[:,:,0], int8_images[i][:,:,0]).mean() for i, rgb in enumerate(to8b(rgbs))]) 
+            ssims_g = np.float64([ssim(rgb[:,:,1], int8_images[i][:,:,1]).mean() for i, rgb in enumerate(to8b(rgbs))])
+            ssims_b = np.float64([ssim(rgb[:,:,2], int8_images[i][:,:,2]).mean() for i, rgb in enumerate(to8b(rgbs))])
+
+            ssims_rgb = (ssims_r + ssims_g + ssims_b) / 3
+
+            mean_ssim = sum(ssims_rgb) / len(int8_images)
+
+            # find LPIPS
+            # rgbs_copy = torch.Tensor(np.transpose(rgbs, (0, 3, 1, 2)))
+            # images_copy = torch.permute(images[i_test].detach(), (0, 3, 1, 2))
+
+            # log to wandb
             wandb.log({
                 "Test Images from Iter: {:06d}".format(i) : 
-                [wandb.Image(rgb, caption="Image {:06d}".format(i)) for i, rgb in enumerate(to8b(rgbs))]
+                [wandb.Image(rgb, caption="Image {:06d}".format(i)) for i, rgb in enumerate(to8b(rgbs))],
+                "Mean SSIM": mean_ssim,
+                # "LPIPS": lpips(rgbs_copy, images_copy).to(device).item(),
             })
 
         # Logging for WandB
