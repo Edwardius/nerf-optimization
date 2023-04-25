@@ -11,7 +11,7 @@
             "program": "run_nerf.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["--config", "configs/trex_configs_diffW/trex_10.txt", "--netwidth", "240", "248", "256"],
+            "args": ["--config", "configs/trex_configs_def64/trex_005.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "9", "11", "12"],
             "env": {"WANDB_MODE": "offline"}
         }
     ]

@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.7.1-devel-ubuntu22.04
+FROM nvidia/cuda:12.1.0-devel-ubuntu20.04
 ENV DEBIAN_FRONTEND noninteractive
 
 # ================= Dependencies ===================
@@ -35,7 +35,10 @@ RUN pip install \
     
     # Weights and Biases login for mlOPs
     moviepy \
-    wandb
+    wandb \
+
+    # FLOPS
+    fvcore
 
 RUN pip install torch torchvision torchaudio
 

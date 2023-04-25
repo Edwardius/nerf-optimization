@@ -9,6 +9,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 from tqdm import tqdm, trange
 
+# FLOPS
+from fvcore.nn import FlopCountAnalysis
+
 from torchmetrics.image.lpip import LearnedPerceptualImagePatchSimilarity
 
 import matplotlib.pyplot as plt
