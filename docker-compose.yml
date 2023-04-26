@@ -512,7 +512,8 @@ services:
       context: .
       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
       args:
-        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        # USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_MODE: offline
         USER_WANDB_KEY: ${WANDB_KEY:-}
 
     image: vip-nerf/nerf-pytorch
@@ -522,12 +523,11 @@ services:
       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
     ipc: host
     tty: true
-    command: ["sleep", "inf"]
-    # command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_005.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "9", "11", "12"]
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_005.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "9", "11", "12"]
     deploy:
       resources:
         reservations:
           devices:
           - driver: nvidia
-            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
             capabilities: [gpu]
