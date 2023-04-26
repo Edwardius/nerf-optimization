@@ -1,519 +1,11 @@
 version: "3.9"
 services:
-#   nerf-pytorch-10:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_10.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "240", "248", "256"]
-#     # command: ["sleep", "inf"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-09:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_09.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "235", "243", "250"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-
-#   nerf-pytorch-08:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_08.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "230", "238", "245"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-07:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_07.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "216", "224", "231"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-06:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_06.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "210", "217", "224"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-05:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_05.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "194", "201", "208"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-04:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_04.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "178", "185", "191"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-
-#   nerf-pytorch-03:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_03.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "165", "171", "177"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-02:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_02.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "138", "144", "149"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-01:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_01.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "93", "97", "102"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-005:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_005.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "62", "66", "69"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-# # ======================================================================================================
-
-#   nerf-pytorch-10-64:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_10.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "56", "60", "64"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-09-64:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_09.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "55", "59", "63"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-
-#   nerf-pytorch-08-64:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_08.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "51", "55", "58"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-07-64:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_07.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "48", "52", "56"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-06-64:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_06.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "47", "51", "54"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-05-64:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_05.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "44", "47", "50"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-04-64:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_04.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "38", "41", "45"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-
-#   nerf-pytorch-03-64:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_03.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "33", "36", "39"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-02-64:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_02.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "24", "26", "29"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-#   nerf-pytorch-01-64:
-#     build:
-#       context: .
-#       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
-#       args:
-#         USER_WANDB_MODE: ${WANDB_MODE:-offline}
-#         USER_WANDB_KEY: ${WANDB_KEY:-}
-
-#     image: vip-nerf/nerf-pytorch
-
-#     user: ${FIXUID:?}:${FIXGID:?}
-#     volumes:
-#       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
-#     ipc: host
-#     tty: true
-#     command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_01.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "14", "16", "18"]
-#     deploy:
-#       resources:
-#         reservations:
-#           devices:
-#           - driver: nvidia
-#             device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
-#             capabilities: [gpu]
-  
-  nerf-pytorch-005-64:
+  nerf-pytorch-10:
     build:
       context: .
       dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
       args:
-        # USER_WANDB_MODE: ${WANDB_MODE:-offline}
-        USER_WANDB_MODE: offline
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
         USER_WANDB_KEY: ${WANDB_KEY:-}
 
     image: vip-nerf/nerf-pytorch
@@ -523,7 +15,514 @@ services:
       - ./src/nerf-pytorch:/home/docker/nerf-pytorch
     ipc: host
     tty: true
-    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_005.txt", "--netwidth_fine",  "9",  "11",  "12", "--netwidth", "9", "11", "12"]
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_10.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "240", "248", "256"]
+    # command: ["sleep", "inf"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-09:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_09.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "235", "243", "250"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+
+  nerf-pytorch-08:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_08.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "230", "238", "245"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-07:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_07.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "216", "224", "231"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-06:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_06.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "210", "217", "224"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-05:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_05.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "194", "201", "208"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-04:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_04.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "178", "185", "191"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+
+  nerf-pytorch-03:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_03.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "165", "171", "177"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-02:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_02.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "138", "144", "149"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-01:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_01.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "93", "97", "102"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-005:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_diffW/trex_005.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "62", "66", "69"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+# ======================================================================================================
+
+  nerf-pytorch-10-64:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_10.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "56", "60", "64"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-09-64:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_09.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "55", "59", "63"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+
+  nerf-pytorch-08-64:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_08.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "51", "55", "58"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-07-64:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_07.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "48", "52", "56"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-06-64:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_06.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "47", "51", "54"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-05-64:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_05.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "44", "47", "50"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-04-64:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_04.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "38", "41", "45"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+
+  nerf-pytorch-03-64:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_03.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "33", "36", "39"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['1'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-02-64:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_02.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "24", "26", "29"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['2'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-01-64:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_01.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "14", "16", "18"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['0'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+  
+  nerf-pytorch-005-64:
+    build:
+      context: .
+      dockerfile: docker/nerf-pytorch/nerf-pytorch.Dockerfile
+      args:
+        USER_WANDB_MODE: ${WANDB_MODE:-offline}
+        USER_WANDB_KEY: ${WANDB_KEY:-}
+
+    image: vip-nerf/nerf-pytorch
+
+    user: ${FIXUID:?}:${FIXGID:?}
+    volumes:
+      - ./src/nerf-pytorch:/home/docker/nerf-pytorch
+    ipc: host
+    tty: true
+    command: ["python3", "run_nerf.py", "--config", "configs/trex_configs_def64/trex_005.txt", "--netwidth_fine",  "240", "248", "256", "--netwidth", "9", "11", "12"]
     deploy:
       resources:
         reservations:

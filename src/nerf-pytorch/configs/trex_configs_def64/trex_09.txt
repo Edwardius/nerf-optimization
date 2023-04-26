@@ -1,4 +1,4 @@
-expname = trex_darwin_flopratio_09_def64
+expname = coarse_trex_darwin_flopratio_09_def64
 name = trex_wandb_darwin
 netdepth = 4
 
